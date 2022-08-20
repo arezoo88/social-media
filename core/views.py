@@ -3,10 +3,12 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import auth
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 
 User = get_user_model()
 
 
+@login_required(login_url='core:signin')
 def index(request):
     return render(request, 'index.html')
 
@@ -50,7 +52,7 @@ def signin(request):
     else:
         return render(request, 'signin.html')
 
-
+@login_required(login_url='core:signin')
 def logout(request):
     auth.logout(request)
     return redirect('core:signin')
